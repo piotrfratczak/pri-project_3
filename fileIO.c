@@ -4,6 +4,22 @@
 
 #include "fileIO.h"
 
+char* readLine(void){
+    FILE* ptr = fopen("default.bin", "rb");
+    if(!ptr){
+        //TODO handle error
+        return NULL;
+    }
+
+    char line[MAX_STRING];
+    char* strToReturn = malloc(MAX_STRING*sizeof(char));
+
+    fgets(line, MAX_STRING, ptr);
+    strcpy(strToReturn, line);
+
+    return strToReturn;
+}
+
 void writeToFile(char* text){
     FILE* ptr = fopen("d.bin", "ab");
     if(!ptr){
@@ -15,25 +31,15 @@ void writeToFile(char* text){
     fclose(ptr);
 }
 
-void readFromText(void){
-    int buf;
-    FILE* pointer = fopen("default.txt", "r");
-    FILE* ptr = fopen("default.bin", "wb");
+void rewriteToBin(void){
+    FILE* readPtr = fopen("default.txt", "r");
+    FILE* writePtr = fopen("default.bin", "wb");
 
-    for(int i=0;i<93;i++) {
-        char str[10000] = "";
-        int i = 0;
-
-        buf = fgetc(pointer);
-        while (buf != '\n') {
-            str[i] = (char) buf;
-            i++;
-            buf = fgetc(pointer);
-        }
-        str[i] = '\n';
-        i++;
-        fwrite(str, i*sizeof(char), 1, ptr);
+    for(int i=0 ; i<93 ; i++) {
+        char line[MAX_STRING];
+        fgets(line, MAX_STRING, readPtr);
+        fwrite(line, strlen(line), 1, writePtr);
     }
-    fclose(pointer);
-    fclose(ptr);
+    fclose(readPtr);
+    fclose(writePtr);
 }

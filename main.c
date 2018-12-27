@@ -1,10 +1,17 @@
 #include "ui.h"
 
-int main() {
+//TODO implement args handling
+int main(void){
+
+    //srand(time(NULL));
 
     //displayStatus();
 
-    readFromText();
+    Transmitter* head = initTransmitters(DEFAULT_TRANSMITTERS);
+
+    printf("%d", head->id);
+
+    freeTransmitters(head);
 
     return 0;
 }

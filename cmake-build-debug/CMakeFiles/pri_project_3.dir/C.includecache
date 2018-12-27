@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/pitf9/CLionProjects/pri-project_3/fileIO.c
-fileIO.h
-C:/Users/pitf9/CLionProjects/pri-project_3/fileIO.h
-
 C:/Users/pitf9/CLionProjects/pri-project_3/fileIO.h
 utils.h
 C:/Users/pitf9/CLionProjects/pri-project_3/utils.h
@@ -19,30 +15,24 @@ ui.h
 C:/Users/pitf9/CLionProjects/pri-project_3/ui.h
 
 C:/Users/pitf9/CLionProjects/pri-project_3/stack.h
-utils.h
-C:/Users/pitf9/CLionProjects/pri-project_3/utils.h
-
-C:/Users/pitf9/CLionProjects/pri-project_3/transmitter.c
-transmitter.h
-C:/Users/pitf9/CLionProjects/pri-project_3/transmitter.h
+fileIO.h
+C:/Users/pitf9/CLionProjects/pri-project_3/fileIO.h
 
 C:/Users/pitf9/CLionProjects/pri-project_3/transmitter.h
 stack.h
 C:/Users/pitf9/CLionProjects/pri-project_3/stack.h
 
-C:/Users/pitf9/CLionProjects/pri-project_3/ui.c
-ui.h
-C:/Users/pitf9/CLionProjects/pri-project_3/ui.h
-
 C:/Users/pitf9/CLionProjects/pri-project_3/ui.h
 transmitter.h
 C:/Users/pitf9/CLionProjects/pri-project_3/transmitter.h
-fileIO.h
-C:/Users/pitf9/CLionProjects/pri-project_3/fileIO.h
 
 C:/Users/pitf9/CLionProjects/pri-project_3/utils.h
 stdio.h
 -
+stdlib.h
+-
 string.h
+-
+time.h
 -
 

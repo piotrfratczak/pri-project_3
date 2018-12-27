@@ -6,7 +6,6 @@
 #define PRI_PROJECT_3_UI_H
 
 #include "transmitter.h"
-#include "fileIO.h"
 
 //TODO implement this
 void displayStatus();

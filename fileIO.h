@@ -7,8 +7,10 @@
 
 #include "utils.h"
 
+char* readLine(void);
+
 void writeToFile(char *text);
 
-void readFromText(void);
+void rewriteToBin(void);
 
 #endif //PRI_PROJECT_3_FILEINPUT_H

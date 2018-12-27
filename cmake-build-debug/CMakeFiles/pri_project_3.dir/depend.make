@@ -12,10 +12,12 @@ CMakeFiles/pri_project_3.dir/main.c.obj: ../transmitter.h
 CMakeFiles/pri_project_3.dir/main.c.obj: ../ui.h
 CMakeFiles/pri_project_3.dir/main.c.obj: ../utils.h
 
+CMakeFiles/pri_project_3.dir/stack.c.obj: ../fileIO.h
 CMakeFiles/pri_project_3.dir/stack.c.obj: ../stack.c
 CMakeFiles/pri_project_3.dir/stack.c.obj: ../stack.h
 CMakeFiles/pri_project_3.dir/stack.c.obj: ../utils.h
 
+CMakeFiles/pri_project_3.dir/transmitter.c.obj: ../fileIO.h
 CMakeFiles/pri_project_3.dir/transmitter.c.obj: ../stack.h
 CMakeFiles/pri_project_3.dir/transmitter.c.obj: ../transmitter.c
 CMakeFiles/pri_project_3.dir/transmitter.c.obj: ../transmitter.h

@@ -10,8 +10,17 @@
 typedef struct Transmitter Transmitter;
 struct Transmitter{
     uint id;
+    uint rumorCount;
     Stack rumors;
     Transmitter *next, *prev;
 };
+
+Transmitter* createTransmitter(Transmitter* head);
+
+Transmitter* initTransmitters(int numberOfTransmitters);
+
+uint countTransmitters(Transmitter* head);
+
+void freeTransmitters(Transmitter* head);
 
 #endif //PRI_PROJECT_3_TRANSMITTER_H
