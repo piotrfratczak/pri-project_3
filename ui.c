@@ -4,6 +4,24 @@
 
 #include "ui.h"
 
-void displayStatus(){
-    printf_s("Liczba przekaznikow: %d\n", 5);
+void clearScreen(void){
+    system(CONSOLE_CLEAR_CMD);
+}
+
+void displayStatus(Transmitter* head){
+    Transmitter* current = head;
+    //clearScreen();
+    printf("Liczba przekaznikow: %d\n", countTransmitters(current));
+    while(current){
+        printf("-----------------------\n");
+        printf("Przekaznik nr: %d\n", current->id);
+        printf("Plotki:\n");
+        Stack* currentStack = current->stackHead;
+        while(currentStack){
+            printf("%s\n", currentStack->rumor);
+            currentStack = currentStack->next;
+        }
+        current = current->next;
+    }
+
 }

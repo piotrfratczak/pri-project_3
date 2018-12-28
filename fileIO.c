@@ -27,7 +27,6 @@ void writeToFile(char* text){
     }
 
     fwrite(text, sizeof(text), 1, ptr);
-
     fclose(ptr);
 }
 

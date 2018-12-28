@@ -3,3 +3,14 @@
 //
 
 #include "utils.h"
+
+void setGeneratorSeed(void){
+    srand(time(NULL));
+}
+
+//TODO make it bool
+int isTransmitted(double odds){
+    double random = (double)rand() / RAND_MAX;
+
+    return random <= odds;
+}

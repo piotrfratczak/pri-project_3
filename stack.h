@@ -14,7 +14,11 @@ struct Stack{
     Stack *next;
 };
 
-Stack* createStack(char* rumor, Stack* head);
+Stack* addRumor(char* rumor, Stack* head);
+
+Stack* removeStackHead(Stack* head);
+
+char* getRumor(Stack* rumorPtr);
 
 uint countRumors(Stack* head);
 

@@ -4,15 +4,25 @@
 
 #include "stack.h"
 
-Stack* createStack(char* rumor, Stack* head){
-    Stack* new = malloc(sizeof(Stack));
+Stack* addRumor(char* rumor, Stack* head){
+    Stack* new = (Stack*)malloc(sizeof(Stack));
     new->id = countRumors(head)+1;
     new->next = head;
-
     strcpy(new->rumor, rumor);
-    free(rumor);
 
     return new;
+}
+
+//returns new *head
+Stack* removeStackHead(Stack* head){
+    Stack* newHead = head->next;
+    free(head);
+
+    return newHead;
+}
+
+char* getRumor(Stack* rumorPtr){
+    return rumorPtr->rumor;
 }
 
 uint countRumors(Stack* head){
