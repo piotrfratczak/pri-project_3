@@ -5,7 +5,7 @@
 #include "stack.h"
 
 Stack* addRumor(char* rumor, Stack* head){
-    Stack* new = (Stack*)malloc(sizeof(Stack));
+    Stack* new = (Stack*)safeMalloc(sizeof(Stack));
     new->id = countRumors(head)+1;
     new->next = head;
     strcpy(new->rumor, rumor);

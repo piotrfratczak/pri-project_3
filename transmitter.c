@@ -6,7 +6,7 @@
 
 //returns new *head
 Transmitter* createTransmitter(Transmitter* head){
-    Transmitter* new = malloc(sizeof(Transmitter));
+    Transmitter* new = (Transmitter*)safeMalloc(sizeof(Transmitter));
     new->id = countTransmitters(head)+1;
     //no rumors yet
     new->stackHead = NULL;
@@ -31,7 +31,7 @@ Transmitter* initTransmitters(int numberOfTransmitters){
 }
 
 char* fetchHeadRumor(Transmitter* transmitter){
-    char* rumor = malloc(MAX_STRING* sizeof(char));
+    char* rumor = safeMalloc(MAX_STRING* sizeof(char));
     strcpy(rumor, getRumor(transmitter->stackHead));
     transmitter->stackHead = removeStackHead(transmitter->stackHead);
 
@@ -39,15 +39,14 @@ char* fetchHeadRumor(Transmitter* transmitter){
 }
 
 void transmitRumor(char* rumor, Transmitter* receiver){
-    //return if receiver is NULL
-    if(!receiver){
+    //return if receiver or rumor is NULL or rumor is empty
+    if(!receiver || !rumor || strcmp(rumor, "")==0){
         return;
     }
 
     //run the test only if there is next Transmitter
-    // with a stack of rumors
-    if(receiver->next && receiver->stackHead){
-        while(isTransmitted(0.27)){
+    if(receiver->next){
+        while(receiver->stackHead && isTransmitted(0.27)){
             transmitRumor(fetchHeadRumor(receiver), receiver->next);
         }
     }

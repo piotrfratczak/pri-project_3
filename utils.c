@@ -8,9 +8,19 @@ void setGeneratorSeed(void){
     srand(time(NULL));
 }
 
-//TODO make it bool
-int isTransmitted(double odds){
+bool isTransmitted(double odds){
     double random = (double)rand() / RAND_MAX;
 
     return random <= odds;
+}
+
+void* safeMalloc(size_t size){
+    void* memory = malloc(size);
+
+    if(!memory){
+        fputs("Failed to allocate memory.", stderr);
+        exit(EXIT_FAILURE);
+    }
+
+    return memory;
 }

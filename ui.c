@@ -23,5 +23,6 @@ void displayStatus(Transmitter* head){
         }
         current = current->next;
     }
-
 }
+
+//TODO implement showResult()
