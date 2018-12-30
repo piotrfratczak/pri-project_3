@@ -18,7 +18,8 @@ bool transmitFromFile(char* filename, Transmitter* head){
     char line[MAX_STRING];
 
     while(fgets(line, MAX_STRING, ptr)){
-        transmitRumor(line, head);
+        uint rumorId = newRumorId(head);
+        transmitRumor(line, rumorId, head);
     }
     fclose(ptr);
 

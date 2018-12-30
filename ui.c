@@ -10,11 +10,7 @@ bool handleArgs(int argc, char** args){
 
         Transmitter* head = initTransmitters(DEFAULT_TRANSMITTERS);
         transmitFromFile("default.bin", head);
-        //displayStatus(head);
-
-        displayTransmitter(head);
-
-        displayTransmitter(head);
+        displayStatus(head);
 
         freeAll(head);
 
@@ -42,7 +38,7 @@ void displayTransmitter(Transmitter* transmitter){
         printf("Plotki:\n");
     }
     while(currentRumor){
-        printf("%d. %s\n",currentRumor->id , currentRumor->rumor);
+        printf("%d. id: %d %s\n", currentRumor->position, currentRumor->id, currentRumor->rumor);
         currentRumor = currentRumor->next;
     }
 }
@@ -66,17 +62,20 @@ bool transmitFromUser(Transmitter* receiver){
         return false;
     }
 
-    transmitRumor(rumor, receiver);
+    uint rumorId = newRumorId(findHead(receiver));
+    transmitRumor(rumor, rumorId, receiver);
+
     return true;
 }
 
 bool editRumor(Stack* rumorEl){
     char* newRumor = safeMalloc(MAX_STRING*sizeof(char));
-    if(!getLine(&newRumor) ||
-            !strncpy(rumorEl->rumor, newRumor, MAX_STRING)){
+    if(!getLine(&newRumor) || !strncpy(rumorEl->rumor, newRumor, MAX_STRING)){
+
         return false;
     }
     free(newRumor);
+
     return true;
 }
 

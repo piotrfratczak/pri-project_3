@@ -15,7 +15,7 @@ struct Stack{
     Stack *next;
 };
 
-Stack* createRumor(char* rumor, Stack* head);
+Stack* createRumor(char* rumor, uint id, Stack* head);
 
 Stack* delRumor(Stack* obsolete, Stack* head);
 
@@ -26,6 +26,8 @@ Stack* moveRumor(Stack* mover, Stack* head, uint newLocationId);
 char* getRumor(Stack* rumorPtr);
 
 uint stackSize(Stack* head);
+
+void updateRumorPositions(Stack* head);
 
 Stack* findRumorById(uint id, Stack* head);
 

@@ -33,7 +33,7 @@ Transmitter* delTransmitter(Transmitter* transmitter){
         head = findHead(transmitter);
         transmitter->prev->next = transmitter->next;
     }else{
-        head = transmitter;
+        head = transmitter->next;
     }
 
     if(transmitter->next){
@@ -111,11 +111,13 @@ Transmitter* addTransmitter(uint locationId, Transmitter* head){
 }
 
 void addRumorOnTop(char* rumor, Transmitter* transmitter){
-    transmitter->stackHead = createRumor(rumor, transmitter->stackHead);
+    uint rumorId = newRumorId(findHead(transmitter));
+    transmitter->stackHead = createRumor(rumor, rumorId, transmitter->stackHead);
 }
 
 void addRumorOnGivenPosition(char* rumor, uint stackId, Transmitter* transmitter){
-    transmitter->stackHead = createRumor(rumor, transmitter->stackHead);
+    uint rumorId = newRumorId(findHead(transmitter));
+    transmitter->stackHead = createRumor(rumor, rumorId, transmitter->stackHead);
     transmitter->stackHead = moveRumor(transmitter->stackHead, transmitter->stackHead, stackId);
 }
 
@@ -137,7 +139,7 @@ char* fetchHeadRumor(Transmitter* transmitter){
     return rumor;
 }
 
-void transmitRumor(char* rumor, Transmitter* receiver){
+void transmitRumor(char* rumor, uint rumorId, Transmitter* receiver){
     //return if receiver or rumor is NULL or rumor is empty
     if(!receiver || !rumor || strIsEmpty(rumor)){
         return;
@@ -146,24 +148,26 @@ void transmitRumor(char* rumor, Transmitter* receiver){
     //run the test only if there is next Transmitter
     if(receiver->next){
         while(receiver->stackHead && isTransmitted(0.27)){
-            transmitRumor(fetchHeadRumor(receiver), receiver->next);
+            uint fetchedRumorId = receiver->stackHead->id;
+            transmitRumor(fetchHeadRumor(receiver), fetchedRumorId, receiver->next);
         }
     }
 
     //run the test only if there is next Transmitter
     if(receiver->next && isTransmitted(0.42)){
-        transmitRumor(rumor, receiver->next);
+        transmitRumor(rumor, rumorId, receiver->next);
     }else{
         //add rumor to the stack
-        receiver->stackHead = createRumor(rumor, receiver->stackHead);
+        receiver->stackHead = createRumor(rumor, rumorId, receiver->stackHead);
     }
 }
 
 uint countTransmitters(Transmitter* head){
     uint count = 0;
-    while(head){
+    Transmitter* current = head;
+    while(current){
         ++count;
-        head = head->next;
+        current = current->next;
     }
 
     return count;
@@ -182,20 +186,22 @@ uint transmitterPosition(Transmitter* transmitter){
 
 void updatePositions(Transmitter* head){
     uint position = countTransmitters(head);
-    while(head){
-        head->position = position;
-        head = head->next;
+    Transmitter* current = head;
+    while(current){
+        current->position = position;
+        current = current->next;
         --position;
     }
 }
 
 uint newTransmitterId(Transmitter* head){
     uint newId = 1;
-    while(head){
-        if(head->id >= newId){
-            newId = head->id + 1;
+    Transmitter* current = head;
+    while(current){
+        if(current->id >= newId){
+            newId = current->id + 1;
         }
-        head = head->next;
+        current = current->next;
     }
 
     return newId;
@@ -203,15 +209,16 @@ uint newTransmitterId(Transmitter* head){
 
 uint newRumorId(Transmitter* head){
     uint newId = 1;
-    while(head){
-        Stack* stackHead = head->stackHead;
+    Transmitter* current = head;
+    while(current){
+        Stack* stackHead = current->stackHead;
         while(stackHead){
             if(stackHead->id >= newId){
                 newId = stackHead->id + 1;
             }
             stackHead = stackHead->next;
         }
-        head = head->next;
+        current = current->next;
     }
 
     return newId;

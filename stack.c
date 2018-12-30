@@ -4,10 +4,11 @@
 
 #include "stack.h"
 
-Stack* createRumor(char* rumor, Stack* head){
+//returns new *head
+Stack* createRumor(char* rumor, uint id, Stack* head){
     Stack* new = (Stack*)safeMalloc(sizeof(Stack));
-    new->id = 1;
-    new->position= stackSize(head)+1;
+    new->id = id;
+    new->position = stackSize(head) + 1;
     new->next = head;
     strcpy(new->rumor, rumor);
 
@@ -28,6 +29,8 @@ Stack* delRumor(Stack* obsolete, Stack* head){
     }
     head->next = obsolete->next;
     free(obsolete);
+    updateRumorPositions(head);
+
     return head;
 }
 
@@ -82,6 +85,7 @@ Stack* moveRumor(Stack* mover, Stack* head, uint newLocationId){
         }
         mover->next = moveIt;
     }
+    updateRumorPositions(head);
 
     return head;
 }
@@ -93,12 +97,23 @@ char* getRumor(Stack* rumorPtr){
 
 uint stackSize(Stack* head){
     uint count = 0;
-    while(head){
+    Stack* current = head;
+    while(current){
         ++count;
-        head = head->next;
+        current = current->next;
     }
 
     return count;
+}
+
+void updateRumorPositions(Stack* head){
+    uint position = stackSize(head);
+    Stack* current = head;
+    while(current){
+        current->position = position;
+        current = current->next;
+        --position;
+    }
 }
 
 Stack* findRumorById(uint id, Stack* head){

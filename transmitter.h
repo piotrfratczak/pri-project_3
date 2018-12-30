@@ -31,7 +31,7 @@ Transmitter* initTransmitters(int numberOfTransmitters);
 
 char* fetchHeadRumor(Transmitter* transmitter);
 
-void transmitRumor(char* rumor, Transmitter* receiver);
+void transmitRumor(char* rumor, uint rumorId, Transmitter* receiver);
 
 uint countTransmitters(Transmitter* head);
 
@@ -40,6 +40,8 @@ uint transmitterPosition(Transmitter* transmitter);
 void updatePositions(Transmitter* head);
 
 uint newTransmitterId(Transmitter* head);
+
+uint newRumorId(Transmitter* head);
 
 Transmitter* findTransmitterById(uint id, Transmitter* head);
 
