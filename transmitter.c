@@ -251,6 +251,18 @@ Transmitter* findHead(Transmitter* any){
     return head;
 }
 
+uint findTranIdByPosition(uint position, Transmitter *head){
+    if(position > countTransmitters(head) || !head){
+        return 0;
+    }
+    Transmitter* current = head;
+    while(current->position != position){
+        current = current->next;
+    }
+
+    return current->id;
+}
+
 void freeAll(Transmitter* head){
     Transmitter* prev = NULL;
     while(head){

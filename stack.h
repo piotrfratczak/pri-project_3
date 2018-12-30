@@ -31,5 +31,8 @@ void updateRumorPositions(Stack* head);
 
 Stack* findRumorById(uint id, Stack* head);
 
+uint findStackIdByPosition(uint position, Stack *head);
+
 void freeStack(Stack* head);
+
 #endif //PRI_PROJECT_3_STACK_H

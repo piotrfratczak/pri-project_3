@@ -47,6 +47,8 @@ Transmitter* findTransmitterById(uint id, Transmitter* head);
 
 Transmitter* findHead(Transmitter* any);
 
+uint findTranIdByPosition(uint position, Transmitter *head);
+
 void freeAll(Transmitter* head);
 
 #endif //PRI_PROJECT_3_TRANSMITTER_H

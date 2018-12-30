@@ -127,6 +127,18 @@ Stack* findRumorById(uint id, Stack* head){
     return current;
 }
 
+uint findStackIdByPosition(uint position, Stack *head){
+    if(position > stackSize(head) || !head){
+        return 0;
+    }
+    Stack* current = head;
+    while(current->position != position){
+        current = current->next;
+    }
+
+    return current->id;
+}
+
 void freeStack(Stack* head){
     Stack* prev = NULL;
     while(head){

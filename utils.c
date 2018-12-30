@@ -26,7 +26,8 @@ void* safeMalloc(size_t size){
 }
 
 bool getLine(char** string){
-    if(gets(*string) && strcat(*string, "\n")){
+    clearInputBuffer();
+    if(*string = fgets(*string, MAX_STRING, stdin)){
         return true;
     }else{
         return false;
@@ -39,4 +40,9 @@ bool strIsEmpty(char* string){
     }else{
         return false;
     }
+}
+
+void clearInputBuffer(void){
+    char c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }

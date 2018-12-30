@@ -19,12 +19,42 @@ bool handleArgs(int argc, char** args);
 
 void clearScreen(void);
 
-void displayTransmitter(Transmitter* transmitter);
+void showTransmitter(Transmitter *transmitter);
 
-void displayStatus(Transmitter* head);
+void showStatus(Transmitter *head);
+
+void displayTransmitter(Transmitter* head);
+
+void transmitScreen(Transmitter *head);
+
+void delTransmitterScreen(Transmitter* head);
+
+void addTransmitterScreen(Transmitter* head);
+
+void moveTransmitterScreen(Transmitter* head);
+
+void delRumorScreen(Transmitter* head);
+
+void addRumorScreen(Transmitter* head);
+
+void moveRumorScreen(Transmitter* head);
+
+void editRumorScreen(Transmitter* head);
+
+void displayMainMenu(Transmitter* head);
+
+void displayEditTransmittersMenu(Transmitter* head);
+
+void displayEditRumorsMenu(Transmitter* head);
 
 bool transmitFromUser(Transmitter* receiver);
 
 bool editRumor(Stack* rumorEl);
+
+int getChoice(int maxChoice);
+
+Transmitter* getTransmitterByPosition(Transmitter *head);
+
+Stack* getStackByPosition(Stack* stackHead);
 
 #endif //PRI_PROJECT_3_UI_H

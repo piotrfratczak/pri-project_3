@@ -26,4 +26,6 @@ bool getLine(char** string);
 
 bool strIsEmpty(char* string);
 
+void clearInputBuffer(void);
+
 #endif //PRI_PROJECT_3_UTILS_H
