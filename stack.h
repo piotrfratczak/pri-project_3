@@ -5,23 +5,29 @@
 #ifndef PRI_PROJECT_3_STACK_H
 #define PRI_PROJECT_3_STACK_H
 
-#include "fileIO.h"
+#include "utils.h"
 
 typedef struct Stack Stack;
 struct Stack{
     uint id;
+    uint position;
     char rumor[MAX_STRING];
     Stack *next;
 };
 
-Stack* addRumor(char* rumor, Stack* head);
+Stack* createRumor(char* rumor, Stack* head);
+
+Stack* delRumor(Stack* obsolete, Stack* head);
 
 Stack* removeStackHead(Stack* head);
 
+Stack* moveRumor(Stack* mover, Stack* head, uint newLocationId);
+
 char* getRumor(Stack* rumorPtr);
 
-uint countRumors(Stack* head);
+uint stackSize(Stack* head);
+
+Stack* findRumorById(uint id, Stack* head);
 
 void freeStack(Stack* head);
-
 #endif //PRI_PROJECT_3_STACK_H

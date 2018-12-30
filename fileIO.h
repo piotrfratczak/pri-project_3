@@ -5,9 +5,9 @@
 #ifndef PRI_PROJECT_3_FILEINPUT_H
 #define PRI_PROJECT_3_FILEINPUT_H
 
-#include "utils.h"
+#include "transmitter.h"
 
-char* readLine(void);
+bool transmitFromFile(char* filename, Transmitter* head);
 
 void writeToFile(char *text);
 

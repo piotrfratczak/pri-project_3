@@ -11,8 +11,8 @@
 #include <time.h>   //random numbers generating
 #include <stdbool.h>//boolean values
 
-#define MAX_STRING 300
 #define DEFAULT_TRANSMITTERS 10
+#define MAX_STRING 300
 
 typedef unsigned int uint;
 
@@ -21,5 +21,9 @@ void setGeneratorSeed(void);
 bool isTransmitted(double odds);
 
 void* safeMalloc(size_t size);
+
+bool getLine(char** string);
+
+bool strIsEmpty(char* string);
 
 #endif //PRI_PROJECT_3_UTILS_H

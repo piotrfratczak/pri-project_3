@@ -103,12 +103,6 @@
 		<Unit filename="C:/Users/pitf9/CLionProjects/pri-project_3/ui.h">
 			<Option target="pri_project_3"/>
 		</Unit>
-		<Unit filename="C:/Users/pitf9/CLionProjects/pri-project_3/userIO.c">
-			<Option target="pri_project_3"/>
-		</Unit>
-		<Unit filename="C:/Users/pitf9/CLionProjects/pri-project_3/userIO.h">
-			<Option target="pri_project_3"/>
-		</Unit>
 		<Unit filename="C:/Users/pitf9/CLionProjects/pri-project_3/utils.c">
 			<Option target="pri_project_3"/>
 		</Unit>

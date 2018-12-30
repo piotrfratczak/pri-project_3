@@ -10,11 +10,22 @@
 typedef struct Transmitter Transmitter;
 struct Transmitter{
     uint id;
+    uint position;
     Stack *stackHead;
     Transmitter *next, *prev;
 };
 
 Transmitter* createTransmitter(Transmitter* head);
+
+Transmitter* delTransmitter(Transmitter* transmitter);
+
+Transmitter* moveTransmitter(Transmitter* mover, uint newLocationId);
+
+Transmitter* addTransmitter(uint locationId, Transmitter* head);
+
+void addRumorOnTop(char* rumor, Transmitter* transmitter);
+
+void addRumorOnGivenPosition(char* rumor, uint stackId, Transmitter* transmitter);
 
 Transmitter* initTransmitters(int numberOfTransmitters);
 
@@ -24,6 +35,16 @@ void transmitRumor(char* rumor, Transmitter* receiver);
 
 uint countTransmitters(Transmitter* head);
 
-void freeTransmitters(Transmitter* head);
+uint transmitterPosition(Transmitter* transmitter);
+
+void updatePositions(Transmitter* head);
+
+uint newTransmitterId(Transmitter* head);
+
+Transmitter* findTransmitterById(uint id, Transmitter* head);
+
+Transmitter* findHead(Transmitter* any);
+
+void freeAll(Transmitter* head);
 
 #endif //PRI_PROJECT_3_TRANSMITTER_H

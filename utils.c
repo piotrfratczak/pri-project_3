@@ -24,3 +24,19 @@ void* safeMalloc(size_t size){
 
     return memory;
 }
+
+bool getLine(char** string){
+    if(gets(*string) && strcat(*string, "\n")){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool strIsEmpty(char* string){
+    if(strcmp(string, "") == 0){
+        return true;
+    }else{
+        return false;
+    }
+}

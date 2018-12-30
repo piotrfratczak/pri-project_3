@@ -4,20 +4,25 @@
 
 #include "fileIO.h"
 
-char* readLine(void){
-    FILE* ptr = fopen("default.bin", "rb");
+bool transmitFromFile(char* filename, Transmitter* head){
+    if(!head || !filename || strIsEmpty(filename)){
+        return false;
+    }
+
+    FILE* ptr = fopen(filename, "rb");
     if(!ptr){
         //TODO handle error
         return NULL;
     }
 
     char line[MAX_STRING];
-    char* strToReturn = malloc(MAX_STRING*sizeof(char));
 
-    fgets(line, MAX_STRING, ptr);
-    strcpy(strToReturn, line);
+    while(fgets(line, MAX_STRING, ptr)){
+        transmitRumor(line, head);
+    }
+    fclose(ptr);
 
-    return strToReturn;
+    return true;
 }
 
 void writeToFile(char* text){

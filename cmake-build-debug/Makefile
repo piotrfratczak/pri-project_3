@@ -257,33 +257,6 @@ ui.c.s:
 	$(MAKE) -f CMakeFiles\pri_project_3.dir\build.make CMakeFiles/pri_project_3.dir/ui.c.s
 .PHONY : ui.c.s
 
-userIO.obj: userIO.c.obj
-
-.PHONY : userIO.obj
-
-# target to build an object file
-userIO.c.obj:
-	$(MAKE) -f CMakeFiles\pri_project_3.dir\build.make CMakeFiles/pri_project_3.dir/userIO.c.obj
-.PHONY : userIO.c.obj
-
-userIO.i: userIO.c.i
-
-.PHONY : userIO.i
-
-# target to preprocess a source file
-userIO.c.i:
-	$(MAKE) -f CMakeFiles\pri_project_3.dir\build.make CMakeFiles/pri_project_3.dir/userIO.c.i
-.PHONY : userIO.c.i
-
-userIO.s: userIO.c.s
-
-.PHONY : userIO.s
-
-# target to generate assembly for a file
-userIO.c.s:
-	$(MAKE) -f CMakeFiles\pri_project_3.dir\build.make CMakeFiles/pri_project_3.dir/userIO.c.s
-.PHONY : userIO.c.s
-
 utils.obj: utils.c.obj
 
 .PHONY : utils.obj
@@ -335,9 +308,6 @@ help:
 	@echo ... ui.obj
 	@echo ... ui.i
 	@echo ... ui.s
-	@echo ... userIO.obj
-	@echo ... userIO.i
-	@echo ... userIO.s
 	@echo ... utils.obj
 	@echo ... utils.i
 	@echo ... utils.s

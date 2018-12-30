@@ -5,7 +5,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/pri_project_3.dir/transmitter.c.obj"
   "CMakeFiles/pri_project_3.dir/ui.c.obj"
   "CMakeFiles/pri_project_3.dir/fileIO.c.obj"
-  "CMakeFiles/pri_project_3.dir/userIO.c.obj"
   "pri_project_3.pdb"
   "pri_project_3.exe"
   "pri_project_3.exe.manifest"

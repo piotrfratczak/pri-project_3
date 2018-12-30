@@ -13,11 +13,18 @@
 #define CONSOLE_CLEAR_CMD ""
 #endif
 
-#include "transmitter.h"
+#include "fileIO.h"
+
+bool handleArgs(int argc, char** args);
 
 void clearScreen(void);
 
-//TODO implement this
+void displayTransmitter(Transmitter* transmitter);
+
 void displayStatus(Transmitter* head);
+
+bool transmitFromUser(Transmitter* receiver);
+
+bool editRumor(Stack* rumorEl);
 
 #endif //PRI_PROJECT_3_UI_H

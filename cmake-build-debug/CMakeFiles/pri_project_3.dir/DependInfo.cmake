@@ -9,7 +9,6 @@ set(CMAKE_DEPENDS_CHECK_C
   "C:/Users/pitf9/CLionProjects/pri-project_3/stack.c" "C:/Users/pitf9/CLionProjects/pri-project_3/cmake-build-debug/CMakeFiles/pri_project_3.dir/stack.c.obj"
   "C:/Users/pitf9/CLionProjects/pri-project_3/transmitter.c" "C:/Users/pitf9/CLionProjects/pri-project_3/cmake-build-debug/CMakeFiles/pri_project_3.dir/transmitter.c.obj"
   "C:/Users/pitf9/CLionProjects/pri-project_3/ui.c" "C:/Users/pitf9/CLionProjects/pri-project_3/cmake-build-debug/CMakeFiles/pri_project_3.dir/ui.c.obj"
-  "C:/Users/pitf9/CLionProjects/pri-project_3/userIO.c" "C:/Users/pitf9/CLionProjects/pri-project_3/cmake-build-debug/CMakeFiles/pri_project_3.dir/userIO.c.obj"
   "C:/Users/pitf9/CLionProjects/pri-project_3/utils.c" "C:/Users/pitf9/CLionProjects/pri-project_3/cmake-build-debug/CMakeFiles/pri_project_3.dir/utils.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
