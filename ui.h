@@ -19,19 +19,19 @@ bool handleArgs(int argc, char** args);
 
 void clearScreen(void);
 
-void showTransmitter(Transmitter *transmitter);
+void showTransmitter(Transmitter* transmitter);
 
-void showStatus(Transmitter *head);
+void showStatus(Transmitter* head);
 
 void displayTransmitter(Transmitter* head);
 
-void transmitScreen(Transmitter *head);
+void transmitScreen(Transmitter* head);
 
-void delTransmitterScreen(Transmitter* head);
+void delTransmitterScreen(Transmitter** head);
 
-void addTransmitterScreen(Transmitter* head);
+void addTransmitterScreen(Transmitter** head);
 
-void moveTransmitterScreen(Transmitter* head);
+void moveTransmitterScreen(Transmitter** head);
 
 void delRumorScreen(Transmitter* head);
 
@@ -41,9 +41,9 @@ void moveRumorScreen(Transmitter* head);
 
 void editRumorScreen(Transmitter* head);
 
-void displayMainMenu(Transmitter* head);
+bool displayMainMenu(Transmitter** head);
 
-void displayEditTransmittersMenu(Transmitter* head);
+void displayEditTransmittersMenu(Transmitter** head);
 
 void displayEditRumorsMenu(Transmitter* head);
 
@@ -51,7 +51,7 @@ bool transmitFromUser(Transmitter* receiver);
 
 bool editRumor(Stack* rumorEl);
 
-int getChoice(int maxChoice);
+int getChoice(int minChoice, int maxChoice);
 
 Transmitter* getTransmitterByPosition(Transmitter *head);
 
