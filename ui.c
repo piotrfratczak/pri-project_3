@@ -5,22 +5,75 @@
 #include "ui.h"
 
 bool handleArgs(int argc, char** args){
-    if(argc <= 3) {
-        setGeneratorSeed();
+    setGeneratorSeed();
+    Transmitter* head;
+    //TODO ustaw limity poczatkowe przekaznikow uwaga na 000
 
-        Transmitter* head = initTransmitters(DEFAULT_TRANSMITTERS);
-        transmitFromFile("default.bin", head);
-        //showStatus(head);
+    if(1 == argc){
+        head = initTransmitters(DEFAULT_TRANSMITTERS);
+        if(!transmitFromFile("default.bin", head)){
+            return false;
+        }
+    }else if(2 == argc){
 
-        while(displayMainMenu(&head)){}
+        if(0 == strcmp(args[1], "start")){
+            head = initTransmitters(DEFAULT_TRANSMITTERS);
+            if(!transmitFromFile("default.bin", head)){
+                return false;
+            }
+        }else if(0 == strcmp(args[1], "resume")){
+            head = loadData();
+        }else{
+            return false;
+        }
 
-        freeAll(head);
+    }else if(3 == argc){
 
-        return true;
+        if(stringIsInt(args[2])){
+            //file + number
+            head = initTransmitters(strToInt(args[2]));
+            if(!transmitFromFile(args[1], head)){
+                return false;
+            }
+        }else if(0 == strcmp(args[2], "resume")){
+            //file + resume
+            head = loadData();
+            if(!transmitFromFile(args[1], head)){
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+    }else if(4 == argc && stringIsInt(args[3])){
+
+        if(0 == strcmp(args[2], "start")){
+            head = initTransmitters(strToInt(args[3]));
+            if(!transmitFromFile(args[1], head)){
+                return false;
+            }
+        }else if(0 == strcmp(args[2], "resume")){
+            head = loadData();
+            int transmittersToDelete = countTransmitters(head) - strToInt(args[3]);
+            for (int i=0 ; i<transmittersToDelete ; ++i) {
+                head = delTransmitter(head);
+            }
+            if(!transmitFromFile(args[1], head)){
+                return false;
+            }
+        }else{
+            return false;
+        }
+
     }else{
-        printf("Podano zbyt wiele parametrow");
         return false;
     }
+
+
+    while(displayMainMenu(&head)){}
+    saveData(head);
+    freeAll(head);
+    return true;
 }
 
 void clearScreen(void){
@@ -35,7 +88,7 @@ void showTransmitter(Transmitter *transmitter){
     printf("Przekaznik nr %d\n", transmitter->id);
     Stack* currentRumor = transmitter->stackHead;
     if(!currentRumor){
-        printf("Brak plotek\n");
+        printf("Brak plotek\n\n");
     }else{
         printf("Plotki:\n");
     }
@@ -45,11 +98,10 @@ void showTransmitter(Transmitter *transmitter){
     }
 }
 
-//TODO polish showStatus()
 void showStatus(Transmitter* head){
     Transmitter* current = head;
-    //clearScreen();
-    printf("Liczba przekaznikow: %d\n", countTransmitters(current));
+    clearScreen();
+    printf("Liczba przekaznikow: %d\n\n", countTransmitters(current));
     while(current){
         printf("---------- Pozycja %d. ----------\n", current->position);
         showTransmitter(current);
@@ -60,13 +112,23 @@ void showStatus(Transmitter* head){
 
 void displayTransmitter(Transmitter* head){
     clearScreen();
+    if(!head){
+        printf("Brak przekaznikow do wyswietlania.\n\n");
+        return;
+    }
+
     showTransmitter(getTransmitterByPosition(head));
 }
 
 void transmitScreen(Transmitter *head){
     clearScreen();
+    if(!head){
+        printf("Brak przekaznikow. Nie mozna przekazac plotki.\n\n");
+        return;
+    }
+
     Transmitter* transmitter = getTransmitterByPosition(head);
-    printf("Przekaz plotke: ");
+    printf("Tresc plotki do przekazania: ");
     transmitFromUser(transmitter);
 }
 
@@ -81,9 +143,17 @@ void delTransmitterScreen(Transmitter** head){
 
 void addTransmitterScreen(Transmitter** head){
     clearScreen();
-    printf("0 - dodaj na koniec\n"
-           "1 - dodaj w srodku kolejki\n");
-    int choice = getChoice(0,1);
+
+    int choice;
+    if(*head){
+        printf("0 - dodaj na koniec\n"
+               "1 - dodaj w srodku kolejki\n");
+
+        choice = getChoice(0,1);
+    }else{
+        choice = 0;
+    }
+
     switch(choice){
         case 0:
             clearScreen();
@@ -112,6 +182,23 @@ void moveTransmitterScreen(Transmitter** head){
 void delRumorScreen(Transmitter* head){
     clearScreen();
     Transmitter* transmitter = getTransmitterByPosition(head);
+
+    if(!transmitter->stackHead){
+        printf("Brak plotek do usuniecia.\n"
+               "0 - Anuluj\n"
+               "1 - Usun plotke z innego przekaznika.");
+        int choice = getChoice(0,1);
+        switch(choice){
+            case 0:
+                return;
+            case 1:
+                delRumorScreen(head);
+                return;
+            default:
+                return;
+        }
+    }
+
     Stack* obsolete = getStackByPosition(transmitter->stackHead);
     transmitter->stackHead = delRumor(obsolete, transmitter->stackHead);
 }
@@ -123,9 +210,16 @@ void addRumorScreen(Transmitter* head){
     char* rumor = safeMalloc(MAX_STRING*sizeof(char));
     getLine(&rumor);
     clearScreen();
-    printf("0 - dodaj na koniec\n"
-           "1 - dodaj w srodku kolejki\n");
-    int choice = getChoice(0,1);
+
+    int choice;
+    if(transmitter->stackHead){
+        printf("0 - dodaj na koniec\n"
+               "1 - dodaj w srodku kolejki\n");
+        choice = getChoice(0,1);
+    }else{
+        choice = 0;
+    }
+
     switch(choice){
         case 0:
             clearScreen();
@@ -147,9 +241,26 @@ void addRumorScreen(Transmitter* head){
 void moveRumorScreen(Transmitter* head){
     clearScreen();
     Transmitter* transmitter = getTransmitterByPosition(head);
+
+    if(!transmitter->stackHead){
+        printf("Brak plotek do przeniesienia.\n"
+               "0 - Anuluj\n"
+               "1 - Przenies plotke z innego przekaznika.");
+        int choice = getChoice(0,1);
+        switch(choice){
+            case 0:
+                return;
+            case 1:
+                moveRumorScreen(head);
+                return;
+            default:
+                return;
+        }
+    }
+
     Stack* stack = getStackByPosition(transmitter->stackHead);
     printf("0 - przenies w obrebie przekaznika\n"
-           "1 - przenies do innego przekaznika\n");
+           "1 - przenies do innego przekaznika\n\n");
     int choice = getChoice(0,1);
     switch(choice){
         case 0:
@@ -161,7 +272,19 @@ void moveRumorScreen(Transmitter* head){
             break;
         case 1:
             clearScreen();
-            printf("XD");
+            Transmitter* newTransmitter = getTransmitterByPosition(head);
+            if(!newTransmitter->stackHead){
+                addRumorOnTop(fetchHeadRumor(transmitter), newTransmitter);
+                break;
+            }
+
+            //TODO make sure everything works here
+            printf("Podaj nowa pozycje plotki: ");
+            uint newPosition = (uint)getChoice(1, stackSize(newTransmitter->stackHead));
+            uint idNewPosition = findStackIdByPosition(newPosition, newTransmitter->stackHead);
+            //moves rumor to the top
+            transmitter->stackHead = moveRumor(stack, transmitter->stackHead, transmitter->stackHead->id);
+            addRumorOnGivenPosition(fetchHeadRumor(transmitter), idNewPosition, newTransmitter);
             break;
         default:
             printf("Nie ma takiego wyboru");
@@ -172,12 +295,28 @@ void moveRumorScreen(Transmitter* head){
 void editRumorScreen(Transmitter* head){
     clearScreen();
     Transmitter* transmitter = getTransmitterByPosition(head);
+
+    if(!transmitter->stackHead){
+        printf("Brak plotek do edytowania.\n"
+               "0 - Anuluj\n"
+               "1 - Edytuj plotke z innego przekaznika.");
+        int choice = getChoice(0,1);
+        switch(choice){
+            case 0:
+                return;
+            case 1:
+                editRumorScreen(head);
+                return;
+            default:
+                return;
+        }
+    }
+
     Stack* stack = getStackByPosition(transmitter->stackHead);
     printf("Wprowadz nowa tresc plotki:\n");
     editRumor(stack);
 }
 
-//TODO finishThis
 bool displayMainMenu(Transmitter** head){
     bool isRunning = true;
 
@@ -186,9 +325,13 @@ bool displayMainMenu(Transmitter** head){
            "0 - Zakoncz program\n"
            "1 - Pokaz przekazniki\n"
            "2 - Pokaz wybrany przekaznik\n"
-           "3 - Przekaz plotke do przekaznika\n"
-           "4 - Edytuj przekazniki\n"
-           "____________________________________\n");
+           "3 - Przekaz plotke do przekaznika\n");
+    if(*head){
+        printf("4 - Edytuj przekazniki\n");
+    }else{
+        printf("4 - Dodaj przekaznik\n");
+    }
+    printf("____________________________________\n");
 
 
     switch(getChoice(0,4)){
@@ -207,7 +350,12 @@ bool displayMainMenu(Transmitter** head){
             break;
         case 4:
             clearScreen();
-            displayEditTransmittersMenu(head);
+            if(*head){
+                displayEditTransmittersMenu(head);
+            }else{
+                addTransmitterScreen(head);
+            }
+
             break;
         default:
             clearScreen();
@@ -220,6 +368,7 @@ bool displayMainMenu(Transmitter** head){
 
 void displayEditTransmittersMenu(Transmitter** head){
     clearScreen();
+
     printf("MENU EDYCJI PRZEKAZNIKOW\n"
            "____________________________________\n"
            "0 - Menu Glowne\n"
@@ -323,8 +472,13 @@ int getChoice(int minChoice, int maxChoice){
 
 Transmitter* getTransmitterByPosition(Transmitter *head){
     uint maxPosition = countTransmitters(head);
-    printf("Podaj pozycje przekaznika(1 - %d): ",maxPosition);
-    uint position = (uint)getChoice(1, maxPosition);
+    uint position;
+    if(maxPosition != 1){
+        printf("Podaj pozycje przekaznika(1 - %d): ",maxPosition);
+        position = (uint)getChoice(1, maxPosition);
+    }else{
+        position = 1;
+    }
 
     Transmitter* current = head;
     while(current){
@@ -339,8 +493,8 @@ Transmitter* getTransmitterByPosition(Transmitter *head){
 }
 
 Stack* getStackByPosition(Stack* stackHead){
-    printf("Podaj pozycje plotki: ");
     uint maxPosition = stackSize(stackHead);
+    printf("Podaj pozycje plotki(1 - %d): ", maxPosition);
     uint position = (uint)getChoice(1, maxPosition);
 
     Stack* current = stackHead;
@@ -354,7 +508,3 @@ Stack* getStackByPosition(Stack* stackHead){
     //if there is no rumor on given position
     return NULL;
 }
-
-//TODO implement showResult()
-
-//TODO handle case where no rumors

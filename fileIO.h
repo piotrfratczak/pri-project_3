@@ -9,8 +9,12 @@
 
 bool transmitFromFile(char* filename, Transmitter* head);
 
-void writeToFile(char *text);
+bool saveData(Transmitter* head);
 
-void rewriteToBin(void);
+Transmitter* loadData(void);
+
+bool writeToFile(char *text);
+
+bool rewriteToBin(void);
 
 #endif //PRI_PROJECT_3_FILEINPUT_H

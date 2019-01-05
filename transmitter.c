@@ -119,6 +119,7 @@ void addRumorOnGivenPosition(char* rumor, uint stackId, Transmitter* transmitter
     uint rumorId = newRumorId(findHead(transmitter));
     transmitter->stackHead = createRumor(rumor, rumorId, transmitter->stackHead);
     transmitter->stackHead = moveRumor(transmitter->stackHead, transmitter->stackHead, stackId);
+    updateRumorPositions(transmitter->stackHead);
 }
 
 //returns *head
@@ -132,7 +133,7 @@ Transmitter* initTransmitters(int numberOfTransmitters){
 }
 
 char* fetchHeadRumor(Transmitter* transmitter){
-    char* rumor = safeMalloc(MAX_STRING* sizeof(char));
+    char* rumor = safeMalloc(MAX_STRING*sizeof(char));
     strcpy(rumor, getRumor(transmitter->stackHead));
     transmitter->stackHead = removeStackHead(transmitter->stackHead);
 

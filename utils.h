@@ -28,4 +28,8 @@ bool strIsEmpty(char* string);
 
 void clearInputBuffer(void);
 
+int strToInt(char* number);
+
+bool stringIsInt(char* string);
+
 #endif //PRI_PROJECT_3_UTILS_H
