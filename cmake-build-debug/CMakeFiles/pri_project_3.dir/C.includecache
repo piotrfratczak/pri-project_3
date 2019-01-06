@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/pitf9/CLionProjects/pri-project_3/fileIO.c
+fileIO.h
+C:/Users/pitf9/CLionProjects/pri-project_3/fileIO.h
+
 C:/Users/pitf9/CLionProjects/pri-project_3/fileIO.h
 transmitter.h
 C:/Users/pitf9/CLionProjects/pri-project_3/transmitter.h
@@ -17,14 +21,6 @@ C:/Users/pitf9/CLionProjects/pri-project_3/utils.h
 C:/Users/pitf9/CLionProjects/pri-project_3/transmitter.h
 stack.h
 C:/Users/pitf9/CLionProjects/pri-project_3/stack.h
-
-C:/Users/pitf9/CLionProjects/pri-project_3/ui.c
-ui.h
-C:/Users/pitf9/CLionProjects/pri-project_3/ui.h
-
-C:/Users/pitf9/CLionProjects/pri-project_3/ui.h
-fileIO.h
-C:/Users/pitf9/CLionProjects/pri-project_3/fileIO.h
 
 C:/Users/pitf9/CLionProjects/pri-project_3/utils.h
 stdio.h

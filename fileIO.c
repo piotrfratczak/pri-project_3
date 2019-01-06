@@ -33,16 +33,25 @@ bool saveData(Transmitter* head){
         return false;
     }
 
+    int separator = 1;
+    int terminator = -1;
     Transmitter* current = head;
     while(current){
+        fwrite(&separator, sizeof(int), 1, outfile);
         fwrite(current, sizeof(Transmitter), 1, outfile);
+        //stack
         Stack* curStack = current->stackHead;
         while(curStack){
-            fwrite(curStack, sizeof(Stack), 1, outfile);
+            fwrite(&separator, sizeof(int), 1, outfile);
+            fwrite(curStack, sizeof(Stack), 1,outfile);
+
             curStack = curStack->next;
         }
+        fwrite(&terminator, sizeof(int), 1, outfile);
+
         current = current->next;
     }
+    fwrite(&terminator, sizeof(int), 1, outfile);
     fclose(outfile);
 
     return true;
@@ -52,54 +61,48 @@ bool saveData(Transmitter* head){
 Transmitter* loadData(void){
     FILE* infile = fopen("data.bin", "rb");
     if(!infile){
-        printf("Nie udalo sie zapisac stanu programu.\n");
+        printf("Nie udalo sie wczytac stanu programu.\n");
         return NULL;
     }
 
+    int buf;
     Transmitter* current = safeMalloc(sizeof(Transmitter));
-    fread(current, sizeof(Transmitter), 1, infile);
-    if(!current){
+    Transmitter* prev = NULL;
+    fread(&buf, sizeof(int), 1, infile);
+    if(1 != buf){
         return NULL;
     }
-    Transmitter* head = current;
-    while(current->next){
-        Transmitter* next = safeMalloc(sizeof(Transmitter));
-        fread(next, sizeof(Transmitter), 1, infile);
-        current->next = next;
-        next->prev = current;
+    while(1 == buf){
+        fread(current, sizeof(Transmitter), 1, infile);
+        current->prev = prev;
 
         //stack
-        if(current->stackHead){
-            Stack* curStack = safeMalloc(sizeof(Stack));
+        current->stackHead = safeMalloc(sizeof(Stack));
+        Stack* curStack = current->stackHead;
+        fread(&buf, sizeof(int), 1, infile);
+        while(1 == buf){
             fread(curStack, sizeof(Stack), 1, infile);
-            current->stackHead = curStack;
-            while(curStack->next){
-                Stack* nextStack = safeMalloc(sizeof(Stack));
-                fread(nextStack, sizeof(Stack), 1, infile);
-                curStack->next = nextStack;
-                //go to the next stack element
+            fread(&buf, sizeof(int), 1, infile);
+            if(1 == buf){
+                curStack->next = safeMalloc(sizeof(Stack));
                 curStack = curStack->next;
+            }else{
+                curStack->next = NULL;
             }
         }
 
+current->next = NULL;
+        current->next = safeMalloc(sizeof(Transmitter));
+        prev = current;
         current = current->next;
+        fread(&buf, sizeof(int), 1, infile);
+    }
+    if(prev){
+        prev->next = NULL;
     }
     fclose(infile);
 
-    return head;
-}
-
-bool writeToFile(char* text){
-    FILE* ptr = fopen("data.bin", "wb");
-    if(!ptr){
-        printf("Nie udalo sie zapisac.\n");
-        return false;
-    }
-
-    fwrite(text, sizeof(text), 1, ptr);
-    fclose(ptr);
-
-    return true;
+    return findHead(prev);
 }
 
 bool rewriteToBin(void){

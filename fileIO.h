@@ -13,8 +13,6 @@ bool saveData(Transmitter* head);
 
 Transmitter* loadData(void);
 
-bool writeToFile(char *text);
-
 bool rewriteToBin(void);
 
 #endif //PRI_PROJECT_3_FILEINPUT_H

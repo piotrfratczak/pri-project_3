@@ -69,7 +69,7 @@ bool handleArgs(int argc, char** args){
         return false;
     }
 
-
+    clearScreen();
     while(displayMainMenu(&head)){}
     saveData(head);
     freeAll(head);
