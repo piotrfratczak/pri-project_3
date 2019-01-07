@@ -1,6 +1,10 @@
-//
-// Created by pitf9 on 22.12.2018.
-//
+/*
+ * PRI Project n3
+ * Rumor Transmitter
+ *
+ * Created by Piotr Fratczak on 22.12.2018.
+ * Warsaw University of Technology
+ */
 
 #ifndef PRI_PROJECT_3_TRANSMITTER_H
 #define PRI_PROJECT_3_TRANSMITTER_H

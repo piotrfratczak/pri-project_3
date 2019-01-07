@@ -1,13 +1,16 @@
-//
-// Created by pitf9 on 22.12.2018.
-//
+/*
+ * PRI Project n3
+ * Rumor Transmitter
+ *
+ * Created by Piotr Fratczak on 22.12.2018.
+ * Warsaw University of Technology
+ */
 
 #include "ui.h"
 
 bool handleArgs(int argc, char** args){
     setGeneratorSeed();
     Transmitter* head;
-    //TODO ustaw limity poczatkowe przekaznikow uwaga na 000
 
     if(1 == argc){
         head = initTransmitters(DEFAULT_TRANSMITTERS);
@@ -31,6 +34,9 @@ bool handleArgs(int argc, char** args){
 
         if(stringIsInt(args[2])){
             //file + number
+            if(strToInt(args[2]) > 30){
+                return false;
+            }
             head = initTransmitters(strToInt(args[2]));
             if(!transmitFromFile(args[1], head)){
                 return false;
@@ -46,6 +52,10 @@ bool handleArgs(int argc, char** args){
         }
 
     }else if(4 == argc && stringIsInt(args[3])){
+
+        if(strToInt(args[3]) > 30){
+            return false;
+        }
 
         if(0 == strcmp(args[2], "start")){
             head = initTransmitters(strToInt(args[3]));
@@ -110,6 +120,26 @@ void showStatus(Transmitter* head){
     }
 }
 
+void showResult(Transmitter* head){
+    clearScreen();
+    if(!head){
+        printf("Brak przekaznikow do wyswietlania.\n\n");
+        return;
+    }
+
+    Transmitter* transmitter = findTransmitterById(findTranIdByPosition(1, head), head);
+    Stack* currentRumor = transmitter->stackHead;
+    if(!currentRumor){
+        printf("Brak plotek\n\n");
+    }else{
+        printf("Plotki:\n");
+    }
+    while(currentRumor){
+        printf("%d. %s\n", currentRumor->position, currentRumor->rumor);
+        currentRumor = currentRumor->next;
+    }
+}
+
 void displayTransmitter(Transmitter* head){
     clearScreen();
     if(!head){
@@ -120,16 +150,15 @@ void displayTransmitter(Transmitter* head){
     showTransmitter(getTransmitterByPosition(head));
 }
 
-void transmitScreen(Transmitter *head){
+void transmitScreen(Transmitter* head){
     clearScreen();
     if(!head){
         printf("Brak przekaznikow. Nie mozna przekazac plotki.\n\n");
         return;
     }
 
-    Transmitter* transmitter = getTransmitterByPosition(head);
     printf("Tresc plotki do przekazania: ");
-    transmitFromUser(transmitter);
+    transmitFromUser(head);
 }
 
 void delTransmitterScreen(Transmitter** head){
@@ -278,7 +307,7 @@ void moveRumorScreen(Transmitter* head){
                 break;
             }
 
-            //TODO make sure everything works here
+            //TODO zamiana miejsc plotek i przekaznikow
             printf("Podaj nowa pozycje plotki: ");
             uint newPosition = (uint)getChoice(1, stackSize(newTransmitter->stackHead));
             uint idNewPosition = findStackIdByPosition(newPosition, newTransmitter->stackHead);
@@ -323,20 +352,54 @@ bool displayMainMenu(Transmitter** head){
     printf("MENU GLOWNE\n"
            "____________________________________\n"
            "0 - Zakoncz program\n"
-           "1 - Pokaz przekazniki\n"
-           "2 - Pokaz wybrany przekaznik\n"
-           "3 - Przekaz plotke do przekaznika\n");
+           "1 - Pokaz rezultat\n"
+           "2 - Przekaz plotke do kolejki\n"
+           "3 - Edytuj struktury\n");
+
+    printf("____________________________________\n");
+
+
+    switch(getChoice(0,3)){
+        case 0:
+            isRunning = false;
+            clearScreen();
+            break;
+        case 1:
+            showResult(*head);
+            break;
+        case 2:
+            transmitScreen(*head);
+            break;
+        case 3:
+            displayEditStructuresMenu(head);
+            break;
+        default:
+            clearScreen();
+            printf("Nie ma takiego wyboru, sprobuj jeszcze raz\n");
+            break;
+    }
+
+    return isRunning;
+}
+
+void displayEditStructuresMenu(Transmitter** head){
+    clearScreen();
+
+    printf("MENU EDYCJI STRUKTUR\n"
+           "____________________________________\n"
+           "0 - Menu glowne\n"
+           "1 - Pokaz wszystkie przekazniki\n"
+           "2 - Pokaz wybrany przekaznik\n");
     if(*head){
-        printf("4 - Edytuj przekazniki\n");
+        printf("3 - Edytuj przekazniki\n");
     }else{
-        printf("4 - Dodaj przekaznik\n");
+        printf("3 - Dodaj przekaznik\n");
     }
     printf("____________________________________\n");
 
 
-    switch(getChoice(0,4)){
+    switch(getChoice(0,3)){
         case 0:
-            isRunning = false;
             clearScreen();
             break;
         case 1:
@@ -346,9 +409,6 @@ bool displayMainMenu(Transmitter** head){
             displayTransmitter(*head);
             break;
         case 3:
-            transmitScreen(*head);
-            break;
-        case 4:
             clearScreen();
             if(*head){
                 displayEditTransmittersMenu(head);
@@ -362,8 +422,6 @@ bool displayMainMenu(Transmitter** head){
             printf("Nie ma takiego wyboru, sprobuj jeszcze raz\n");
             break;
     }
-
-    return isRunning;
 }
 
 void displayEditTransmittersMenu(Transmitter** head){

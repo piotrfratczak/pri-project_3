@@ -1,6 +1,10 @@
-//
-// Created by pitf9 on 22.12.2018.
-//
+/*
+ * PRI Project n3
+ * Rumor Transmitter
+ *
+ * Created by Piotr Fratczak on 22.12.2018.
+ * Warsaw University of Technology
+ */
 
 #ifndef PRI_PROJECT_3_UI_H
 #define PRI_PROJECT_3_UI_H
@@ -23,6 +27,8 @@ void showTransmitter(Transmitter* transmitter);
 
 void showStatus(Transmitter* head);
 
+void showResult(Transmitter* head);
+
 void displayTransmitter(Transmitter* head);
 
 void transmitScreen(Transmitter* head);
@@ -42,6 +48,8 @@ void moveRumorScreen(Transmitter* head);
 void editRumorScreen(Transmitter* head);
 
 bool displayMainMenu(Transmitter** head);
+
+void displayEditStructuresMenu(Transmitter** head);
 
 void displayEditTransmittersMenu(Transmitter** head);
 

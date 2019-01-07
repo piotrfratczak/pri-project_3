@@ -1,6 +1,10 @@
-//
-// Created by pitf9 on 22.12.2018.
-//
+/*
+ * PRI Project n3
+ * Rumor Transmitter
+ *
+ * Created by Piotr Fratczak on 22.12.2018.
+ * Warsaw University of Technology
+ */
 
 #include "utils.h"
 
@@ -28,8 +32,10 @@ void* safeMalloc(size_t size){
 bool getLine(char** string){
     clearInputBuffer();
     if((*string = fgets(*string, MAX_STRING, stdin))){
+        clearInputBuffer();
         return true;
     }else{
+        clearInputBuffer();
         return false;
     }
 }

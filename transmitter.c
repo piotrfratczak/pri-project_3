@@ -1,6 +1,10 @@
-//
-// Created by pitf9 on 22.12.2018.
-//
+/*
+ * PRI Project n3
+ * Rumor Transmitter
+ *
+ * Created by Piotr Fratczak on 22.12.2018.
+ * Warsaw University of Technology
+ */
 
 #include "transmitter.h"
 
@@ -54,7 +58,8 @@ Transmitter* moveTransmitter(Transmitter* mover, uint newLocationId){
     if(!mover ){
         return NULL;
     }
-    //the transmitter that has to be moved to make room for the mover
+    //the transmitter on the desired position,
+    // that has to be moved to make room for the mover
     Transmitter* moveIt = findTransmitterById(newLocationId, findHead(mover));
     if(!moveIt){
         return NULL;
@@ -72,7 +77,7 @@ Transmitter* moveTransmitter(Transmitter* mover, uint newLocationId){
         mover->next->prev = mover->prev;
     }
 
-    if(mover->id > newLocationId){
+    if(mover->position > transmitterPosition(moveIt)){
 
         mover->next = moveIt->next;
         if(moveIt->next){
@@ -81,7 +86,7 @@ Transmitter* moveTransmitter(Transmitter* mover, uint newLocationId){
         moveIt->next = mover;
         mover->prev = moveIt;
 
-    }else if(mover->id < newLocationId){
+    }else if(mover->position < transmitterPosition(moveIt)){
 
         mover->prev = moveIt->prev;
         if(moveIt->prev){
@@ -148,14 +153,14 @@ void transmitRumor(char* rumor, uint rumorId, Transmitter* receiver){
 
     //run the test only if there is next Transmitter
     if(receiver->next){
-        while(receiver->stackHead && isTransmitted(0.27)){
+        while(receiver->stackHead && isTransmitted(Q)){
             uint fetchedRumorId = receiver->stackHead->id;
             transmitRumor(fetchHeadRumor(receiver), fetchedRumorId, receiver->next);
         }
     }
 
     //run the test only if there is next Transmitter
-    if(receiver->next && isTransmitted(0.42)){
+    if(receiver->next && isTransmitted(P)){
         transmitRumor(rumor, rumorId, receiver->next);
     }else{
         //add rumor to the stack

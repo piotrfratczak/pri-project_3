@@ -1,3 +1,11 @@
+/*
+ * PRI Project n3
+ * Rumor Transmitter
+ *
+ * Created by Piotr Fratczak on 22.12.2018.
+ * Warsaw University of Technology
+ */
+
 #include "ui.h"
 
 int main(int argc, char** argv){
@@ -6,11 +14,11 @@ int main(int argc, char** argv){
         if(handleArgs(argc, argv)){
             return 0;
         }else{
-            printf("Podano niepoprawne argumenty uruchomienia.");
+            puts("Podano niepoprawne argumenty uruchomienia.");
             return 1;
         }
     }else{
-        printf("Podano zbyt wiele parametrow uruchomienia.");
+        puts("Podano zbyt wiele parametrow uruchomienia.");
         return 1;
     }
 }

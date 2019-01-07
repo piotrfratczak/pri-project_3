@@ -1,6 +1,10 @@
-//
-// Created by pitf9 on 22.12.2018.
-//
+/*
+ * PRI Project n3
+ * Rumor Transmitter
+ *
+ * Created by Piotr Fratczak on 22.12.2018.
+ * Warsaw University of Technology
+ */
 
 #include "fileIO.h"
 
@@ -18,6 +22,9 @@ bool transmitFromFile(char* filename, Transmitter* head){
     char line[MAX_STRING];
 
     while(fgets(line, MAX_STRING, infile)){
+        if(0 == strcmp(line, "\n")){
+            continue;
+        }
         uint rumorId = newRumorId(head);
         transmitRumor(line, rumorId, head);
     }
@@ -80,6 +87,9 @@ Transmitter* loadData(void){
         current->stackHead = safeMalloc(sizeof(Stack));
         Stack* curStack = current->stackHead;
         fread(&buf, sizeof(int), 1, infile);
+        if(1 != buf){
+            current->stackHead = NULL;
+        }
         while(1 == buf){
             fread(curStack, sizeof(Stack), 1, infile);
             fread(&buf, sizeof(int), 1, infile);

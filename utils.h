@@ -1,6 +1,10 @@
-//
-// Created by pitf9 on 22.12.2018.
-//
+/*
+ * PRI Project n3
+ * Rumor Transmitter
+ *
+ * Created by Piotr Fratczak on 22.12.2018.
+ * Warsaw University of Technology
+ */
 
 #ifndef PRI_PROJECT_3_UTILS_H
 #define PRI_PROJECT_3_UTILS_H
@@ -13,6 +17,8 @@
 
 #define DEFAULT_TRANSMITTERS 10
 #define MAX_STRING 300
+#define Q 0.31  //odds of transmitting a rumor from the stack
+#define P 0.43  //odds of passing on the received rumor
 
 typedef unsigned int uint;
 
