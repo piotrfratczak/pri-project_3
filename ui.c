@@ -64,10 +64,16 @@ bool handleArgs(int argc, char** args){
             }
         }else if(0 == strcmp(args[2], "resume")){
             head = loadData();
-            int transmittersToDelete = countTransmitters(head) - strToInt(args[3]);
-            for (int i=0 ; i<transmittersToDelete ; ++i) {
+            int desiredCount = strToInt(args[3]);
+            //delete if too many
+            while(desiredCount < countTransmitters(head)){
                 head = delTransmitter(head);
             }
+            //add if too few
+            while(desiredCount > countTransmitters(head)){
+                head = createTransmitter(head);
+            }
+
             if(!transmitFromFile(args[1], head)){
                 return false;
             }
@@ -208,6 +214,30 @@ void moveTransmitterScreen(Transmitter** head){
     *head = moveTransmitter(transmitter, id);
 }
 
+void editOddsScreen(Transmitter** head){
+    clearScreen();
+    Transmitter* transmitter = getTransmitterByPosition(*head);
+
+    printf("0 - zmien wartosc q\n"
+           "1 - zmien wartosc p\n");
+
+    int choice = getChoice(0,1);
+    switch(choice){
+        case 0:
+            clearScreen();
+            transmitter->q = getFloat(0.0, transmitter->p);
+            break;
+        case 1:
+            clearScreen();
+            transmitter->p = getFloat(transmitter->q, 0.5);
+            break;
+        default:
+            printf("Nie ma takiego wyboru.\n");
+            editOddsScreen(head);
+            break;
+    }
+}
+
 void delRumorScreen(Transmitter* head){
     clearScreen();
     Transmitter* transmitter = getTransmitterByPosition(head);
@@ -307,7 +337,6 @@ void moveRumorScreen(Transmitter* head){
                 break;
             }
 
-            //TODO zamiana miejsc plotek i przekaznikow
             printf("Podaj nowa pozycje plotki: ");
             uint newPosition = (uint)getChoice(1, stackSize(newTransmitter->stackHead));
             uint idNewPosition = findStackIdByPosition(newPosition, newTransmitter->stackHead);
@@ -433,11 +462,12 @@ void displayEditTransmittersMenu(Transmitter** head){
            "1 - Usun przekaznik\n"
            "2 - Dodaj przekaznik\n"
            "3 - Przenies przekaznik\n"
-           "4 - Edytuj plotki\n"
+           "4 - Zmien prawdopodobienstwa\n"
+           "5 - Edytuj plotki\n"
            "____________________________________\n");
 
 
-    switch(getChoice(0,4)){
+    switch(getChoice(0,5)){
         case 0:
             clearScreen();
             break;
@@ -451,6 +481,9 @@ void displayEditTransmittersMenu(Transmitter** head){
             moveTransmitterScreen(head);
             break;
         case 4:
+            editOddsScreen(head);
+            break;
+        case 5:
             clearScreen();
             displayEditRumorsMenu(*head);
             break;
@@ -516,6 +549,18 @@ bool editRumor(Stack* rumorEl){
     free(newRumor);
 
     return true;
+}
+
+float getFloat(float min, float max){
+    float input = 0;
+
+    while(input <= min || input >= max){
+        printf("Podaj wartosc od %.3f do %.3f: ", min, max);
+        scanf("%4f", &input);
+    }
+    clearInputBuffer();
+
+    return input;
 }
 
 int getChoice(int minChoice, int maxChoice){

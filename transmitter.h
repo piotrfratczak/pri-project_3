@@ -15,6 +15,8 @@ typedef struct Transmitter Transmitter;
 struct Transmitter{
     uint id;
     uint position;
+    float q;
+    float p;
     Stack *stackHead;
     Transmitter *next, *prev;
 };

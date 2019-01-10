@@ -41,6 +41,8 @@ void moveTransmitterScreen(Transmitter** head);
 
 void delRumorScreen(Transmitter* head);
 
+void editOddsScreen(Transmitter** head);
+
 void addRumorScreen(Transmitter* head);
 
 void moveRumorScreen(Transmitter* head);
@@ -58,6 +60,8 @@ void displayEditRumorsMenu(Transmitter* head);
 bool transmitFromUser(Transmitter* receiver);
 
 bool editRumor(Stack* rumorEl);
+
+float getFloat(float min, float max);
 
 int getChoice(int minChoice, int maxChoice);
 

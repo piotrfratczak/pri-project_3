@@ -13,6 +13,8 @@ Transmitter* createTransmitter(Transmitter* head){
     Transmitter* new = (Transmitter*)safeMalloc(sizeof(Transmitter));
     new->id = newTransmitterId(head);
     new->position = countTransmitters(head) + 1;
+    new->q = Q;
+    new->p = P;
     //no rumors yet
     new->stackHead = NULL;
     new->prev = NULL;
@@ -153,14 +155,14 @@ void transmitRumor(char* rumor, uint rumorId, Transmitter* receiver){
 
     //run the test only if there is next Transmitter
     if(receiver->next){
-        while(receiver->stackHead && isTransmitted(Q)){
+        while(receiver->stackHead && isTransmitted(receiver->q)){
             uint fetchedRumorId = receiver->stackHead->id;
             transmitRumor(fetchHeadRumor(receiver), fetchedRumorId, receiver->next);
         }
     }
 
     //run the test only if there is next Transmitter
-    if(receiver->next && isTransmitted(P)){
+    if(receiver->next && isTransmitted(receiver->p)){
         transmitRumor(rumor, rumorId, receiver->next);
     }else{
         //add rumor to the stack
